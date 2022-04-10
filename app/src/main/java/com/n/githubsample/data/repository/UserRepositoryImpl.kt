@@ -10,6 +10,9 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(
     private val service: UserService
 ) : UserRepository {
+    override suspend fun getAuthUser(accessToken: String): User {
+        return service.getAuthUser(accessToken).toUser()
+    }
 
     override suspend fun getUser(userName: String) = flow<User> {
         service.getUser(userName).map { it.toUser() }

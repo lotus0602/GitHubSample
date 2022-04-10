@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">GitHubSample</string>
+
+    <string name="login">login</string>
+
+    <string name="your_device_code">Your Device Code</string>
+    <string name="verification_url">Verification Url</string>
+    <string name="go_to_verification">Go to Verification</string>
 </resources>

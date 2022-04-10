@@ -1,5 +1,6 @@
 package com.n.githubsample.di
 
+import com.n.githubsample.data.api.AuthService
 import com.n.githubsample.data.api.RepoService
 import com.n.githubsample.data.api.UserService
 import dagger.Module
@@ -7,11 +8,17 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 class ApiServiceModule {
+
+    @Singleton
+    @Provides
+    fun provideAuthService(@Named("GitHubRetrofit") retrofit: Retrofit): AuthService =
+        retrofit.create(AuthService::class.java)
 
     @Singleton
     @Provides

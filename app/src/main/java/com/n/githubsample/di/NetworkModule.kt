@@ -9,6 +9,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -31,7 +32,19 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(client: OkHttpClient): Retrofit =
+    @Named("GitHubRetrofit")
+    fun provideGitHubRetrofit(client: OkHttpClient): Retrofit =
+        Retrofit.Builder()
+            .apply {
+                baseUrl(Config.Common.GITHUB_URL)
+                client(client)
+            }.apply {
+                addConverterFactory(GsonConverterFactory.create())
+            }.build()
+
+    @Singleton
+    @Provides
+    fun provideGitHubApiRetrofit(client: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .apply {
                 baseUrl(Config.Api.BASE_URL)
