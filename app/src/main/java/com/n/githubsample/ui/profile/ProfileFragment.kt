@@ -1,37 +1,48 @@
 package com.n.githubsample.ui.profile
 
-import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.n.githubsample.R
-import com.n.githubsample.auth.GitHubAuthActivity
 import com.n.githubsample.base.BaseFragment
 import com.n.githubsample.databinding.FragmentProfileBinding
+import com.n.githubsample.ui.MainVM
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
 
 @AndroidEntryPoint
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
+    private val activityVM: MainVM by activityViewModels()
     private val profileVM: ProfileVM by viewModels()
 
     override val layoutResID: Int = R.layout.fragment_profile
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.viewModel = profileVM
 
-        binding.btnLogin.setOnClickListener {
-            startAuth.launch(Intent(requireActivity(), GitHubAuthActivity::class.java))
-        }
+        init()
     }
 
-    private val startAuth =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == AppCompatActivity.RESULT_OK) {
-                if (result.data?.hasExtra("token") == true) {
-                    val accessToken = result.data?.getStringExtra("token") ?: ""
-                    profileVM.getUser(accessToken)
-                }
-            }
+    private fun init() {
+        lifecycleScope.launchWhenCreated {
+            val hasToken = activityVM.hasAccessToken.first()
+
+            if (!hasToken) findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
+            else profileVM.getUser(activityVM.accessToken.first())
         }
+
+//        CoroutineScope(Dispatchers.Main).launch {
+//            val hasToken = activityVM.hasAccessToken.first()
+//
+//            if (!hasToken) findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
+//            else profileVM.getUser(activityVM.accessToken.first())
+//        }
+
+        profileVM.user.observe(viewLifecycleOwner) {
+            Log.d("TAG", "init, $it")
+        }
+    }
 }

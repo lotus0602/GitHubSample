@@ -11,11 +11,14 @@ class GetUserUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {
 
-    operator fun invoke(accessToken: String): Flow<Result<User>> = flow {
+    operator fun invoke(
+        accessToken: String
+    ): Flow<Result<User>> = flow {
         try {
             val result = userRepository.getAuthUser(accessToken)
             emit(Result.Success(result))
         } catch (e: Exception) {
+            e.printStackTrace()
             emit(Result.Error(e.message ?: ""))
         }
     }

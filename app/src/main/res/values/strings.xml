@@ -6,4 +6,27 @@
     <string name="your_device_code">Your Device Code</string>
     <string name="verification_url">Verification Url</string>
     <string name="go_to_verification">Go to Verification</string>
+
+    <string name="home">Home</string>
+    <string name="my_work">My Work</string>
+    <string name="issues">Issues</string>
+    <string name="pull_requests">Pull Requests</string>
+    <string name="discussions">Discussions</string>
+    <string name="repositories">Repositories</string>
+    <string name="organizations">Organizations</string>
+    <string name="favorites">Favorites</string>
+    <string name="guide_add_favorite">
+        Add favorite repositories for quick access at any time,\n
+        without having to search</string>
+    <string name="add_favorite">Add Favorites</string>
+    <string name="shortcuts">Shortcuts</string>
+
+    <string name="notifications">Notifications</string>
+    <string name="explore">Explore</string>
+    <string name="profile">Profile</string>
+
+    <string name="followers">followers</string>
+    <string name="following">following</string>
+    <string name="popular">Popular</string>
+    <string name="starred">Starred</string>
 </resources>

@@ -7,6 +7,16 @@
     <color name="teal_700">#FF018786</color>
 
     <color name="black">#FF000000</color>
+    <color name="black_92">#17181C</color>
+    <color name="black_89">#1C1D21</color>
+    <color name="black_88">#201F24</color>
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#FF888888</color>
+
+    <color name="dark_pastel_green">#3FD663</color>
+    <color name="dodger_blue">#2E90FF</color>
+    <color name="amethyst">#7548C7</color>
+    <color name="arsenic">#41434F</color>
+    <color name="sana">#FF8B38</color>
+    <color name="tangerine">#FECB1A</color>
 </resources>

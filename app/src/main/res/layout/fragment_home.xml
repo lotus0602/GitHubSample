@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.n.githubsample.utils.DrawableFactory" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/headerMyWork"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/my_work"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/guideline4"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/issues"
+            layout="@layout/include_menu_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:iconBg="@{DrawableFactory.createMenuIcon(@color/dark_pastel_green)}"
+            app:layout_constraintTop_toBottomOf="@+id/headerMyWork"
+            app:name="@{@string/issues}" />
+
+        <include
+            android:id="@+id/pullRequests"
+            layout="@layout/include_menu_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:iconBg="@{DrawableFactory.createMenuIcon(@color/dodger_blue)}"
+            app:layout_constraintTop_toBottomOf="@+id/issues"
+            app:name="@{@string/pull_requests}" />
+
+        <include
+            android:id="@+id/discussions"
+            layout="@layout/include_menu_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:iconBg="@{DrawableFactory.createMenuIcon(@color/amethyst)}"
+            app:layout_constraintTop_toBottomOf="@+id/pullRequests"
+            app:name="@{@string/discussions}" />
+
+        <include
+            android:id="@+id/repositories"
+            layout="@layout/include_menu_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:iconBg="@{DrawableFactory.createMenuIcon(@color/arsenic)}"
+            app:layout_constraintTop_toBottomOf="@+id/discussions"
+            app:name="@{@string/repositories}" />
+
+        <include
+            android:id="@+id/organizations"
+            layout="@layout/include_menu_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:iconBg="@{DrawableFactory.createMenuIcon(@color/sana)}"
+            app:layout_constraintTop_toBottomOf="@+id/repositories"
+            app:name="@{@string/organizations}" />
+
+        <View
+            android:id="@+id/dividerWork"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/grey"
+            app:layout_constraintTop_toBottomOf="@+id/organizations" />
+
+        <TextView
+            android:id="@+id/headerFavorites"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/favorites"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/guideline4"
+            app:layout_constraintTop_toBottomOf="@+id/dividerWork" />
+
+        <TextView
+            android:id="@+id/guideAddFavorite"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:text="@string/guide_add_favorite"
+            android:textColor="@color/grey"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline5"
+            app:layout_constraintStart_toStartOf="@+id/guideline4"
+            app:layout_constraintTop_toBottomOf="@+id/headerFavorites" />
+
+        <TextView
+            android:id="@+id/btnAddFavorite"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_btn_default"
+            android:gravity="center"
+            android:paddingVertical="12dp"
+            android:text="@string/add_favorite"
+            android:textColor="@color/dodger_blue"
+            app:layout_constraintEnd_toStartOf="@+id/guideline5"
+            app:layout_constraintStart_toStartOf="@+id/guideline4"
+            app:layout_constraintTop_toBottomOf="@+id/guideAddFavorite" />
+
+        <View
+            android:id="@+id/dividerFavorite"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="24dp"
+            android:background="@color/grey"
+            app:layout_constraintTop_toBottomOf="@+id/btnAddFavorite" />
+
+        <TextView
+            android:id="@+id/headerShortcut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/shortcuts"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/guideline4"
+            app:layout_constraintTop_toBottomOf="@+id/dividerFavorite" />
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/default_margin" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/default_margin" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

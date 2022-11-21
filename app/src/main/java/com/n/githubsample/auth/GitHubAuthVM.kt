@@ -6,6 +6,7 @@ import com.n.githubsample.domain.Result
 import com.n.githubsample.domain.usecase.GetAccessTokenUseCase
 import com.n.githubsample.domain.usecase.GetDeviceCodeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
@@ -36,5 +37,5 @@ class GitHubAuthVM @Inject constructor(
         clientID: String,
         deviceCode: String,
         grantType: String = "urn:ietf:params:oauth:grant-type:device_code"
-    ) = getAccessTokenUseCase.invoke(clientID, deviceCode, grantType)
+    ): Flow<Result<String>> = getAccessTokenUseCase.invoke(clientID, deviceCode, grantType)
 }

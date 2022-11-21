@@ -4,6 +4,10 @@
 
     <data>
 
+        <import type="com.n.githubsample.utils.Converter" />
+
+        <import type="com.n.githubsample.utils.DrawableFactory" />
+
         <variable
             name="viewModel"
             type="com.n.githubsample.ui.profile.ProfileVM" />
@@ -13,16 +17,120 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnLogin"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container_user"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/selector_btn_default"
-            android:text="@string/login"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:background="@color/black_92"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="20dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/imageProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:minWidth="48dp"
+                app:imageUrl="@{viewModel.user.avatar_url}"
+                app:layout_constraintDimensionRatio="H, 1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/nickName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="@{viewModel.user.name}"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/userId"
+                app:layout_constraintStart_toEndOf="@+id/imageProfile"
+                app:layout_constraintTop_toTopOf="@+id/imageProfile"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/userId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@{viewModel.user.login}"
+                android:textColor="@color/grey"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageProfile"
+                app:layout_constraintStart_toStartOf="@+id/nickName"
+                app:layout_constraintTop_toBottomOf="@+id/nickName" />
+
+            <TextView
+                android:id="@+id/followers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@{Converter.toFollowInfo(context, viewModel.user.followers, viewModel.user.following)}"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageProfile" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container_popular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@color/black_92"
+            app:layout_constraintTop_toBottomOf="@+id/container_user">
+
+            <TextView
+                android:id="@+id/headerPopular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/popular"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="12dp"
+                android:background="@color/grey"
+                app:layout_constraintTop_toBottomOf="@+id/headerPopular" />
+
+            <include
+                android:id="@+id/repositories"
+                layout="@layout/include_menu_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:iconBg="@{DrawableFactory.createMenuIcon(@color/arsenic)}"
+                app:info='@{viewModel.user.repositoryCount + ""}'
+                app:layout_constraintTop_toBottomOf="@+id/divider"
+                app:name="@{@string/repositories}" />
+
+            <include
+                android:id="@+id/organizations"
+                layout="@layout/include_menu_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:iconBg="@{DrawableFactory.createMenuIcon(@color/sana)}"
+                app:layout_constraintTop_toBottomOf="@+id/repositories"
+                app:name="@{@string/organizations}" />
+
+            <include
+                android:id="@+id/starred"
+                layout="@layout/include_menu_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:iconBg="@{DrawableFactory.createMenuIcon(@color/tangerine)}"
+                app:layout_constraintTop_toBottomOf="@+id/organizations"
+                app:name="@{@string/starred}" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
