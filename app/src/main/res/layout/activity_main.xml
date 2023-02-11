@@ -34,7 +34,8 @@
             android:id="@+id/nav_bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:itemTextColor="@color/sana"
+            app:itemIconTint="@drawable/selector_bottom_menu_icon"
+            app:itemTextColor="@color/dodger_blue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:menu="@menu/nav_menu_bottom" />
     </androidx.constraintlayout.widget.ConstraintLayout>
