@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.n.githubsample.domain.model.MyPopularRepo" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_item_repo"
+        android:minWidth="200dp"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/imageOwnerProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:minWidth="12dp"
+            app:imageUrl="@{item.ownerProfileImage}"
+            app:layout_constraintDimensionRatio="H, 1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/ownerName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="@{item.ownerName}"
+            android:textColor="@color/grey"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageOwnerProfile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageOwnerProfile"
+            app:layout_constraintTop_toTopOf="@+id/imageOwnerProfile" />
+
+        <TextView
+            android:id="@+id/repoName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{item.repoName}"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageOwnerProfile" />
+
+        <TextView
+            android:id="@+id/repoDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{item.repoDescription}"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/repoName" />
+
+        <TextView
+            android:id="@+id/starCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:drawablePadding="4dp"
+            android:text='@{item.starCount + ""}'
+            android:textColor="@color/grey"
+            android:textSize="14sp"
+            app:drawableStartCompat="@drawable/ic_star_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/repoDescription" />
+
+        <TextView
+            android:id="@+id/repoLanguage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:text="@{item.repoLanguage}"
+            android:textColor="@color/grey"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/starCount"
+            app:layout_constraintStart_toEndOf="@+id/starCount"
+            app:layout_constraintTop_toTopOf="@+id/starCount" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

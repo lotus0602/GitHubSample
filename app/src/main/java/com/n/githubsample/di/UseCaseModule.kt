@@ -3,10 +3,7 @@ package com.n.githubsample.di
 import com.n.githubsample.domain.repository.AuthRepository
 import com.n.githubsample.domain.repository.RepoRepository
 import com.n.githubsample.domain.repository.UserRepository
-import com.n.githubsample.domain.usecase.GetAccessTokenUseCase
-import com.n.githubsample.domain.usecase.GetDeviceCodeUseCase
-import com.n.githubsample.domain.usecase.GetRepoUseCase
-import com.n.githubsample.domain.usecase.GetUserUseCase
+import com.n.githubsample.domain.usecase.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,6 +23,9 @@ class UseCaseModule {
 
     @Provides
     fun provideGetUserUseCase(userRepository: UserRepository) = GetUserUseCase(userRepository)
+
+    @Provides
+    fun provideGetMyRepoUseCase(repoRepository: RepoRepository) = GetMyRepoUseCase(repoRepository)
 
     @Provides
     fun provideGetRepoUseCase(repoRepository: RepoRepository) = GetRepoUseCase(repoRepository)

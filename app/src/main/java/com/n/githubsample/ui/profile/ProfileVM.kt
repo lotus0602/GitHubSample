@@ -2,28 +2,58 @@ package com.n.githubsample.ui.profile
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.n.githubsample.core.DataStoreManager
 import com.n.githubsample.domain.Result
+import com.n.githubsample.domain.model.MyPopularRepo
 import com.n.githubsample.domain.model.User
+import com.n.githubsample.domain.usecase.GetMyRepoUseCase
 import com.n.githubsample.domain.usecase.GetUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.transformLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileVM @Inject constructor(
+    private val dataStoreManager: DataStoreManager,
     private val getUserUseCase: GetUserUseCase,
+    private val getMyRepoUseCase: GetMyRepoUseCase
 ) : ViewModel() {
     val user = MutableLiveData<User>()
+    val repoList = MutableLiveData<List<MyPopularRepo>>()
 
-    suspend fun getUser(accessToken: String) {
-        getUserUseCase.invoke(accessToken).collect { result ->
-            when (result) {
-                is Result.Success -> {
-                    user.postValue(result.data)
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun fetchData() {
+
+        viewModelScope.launch {
+            dataStoreManager.getAccessToken()
+                .transformLatest { token ->
+                    if (token.isEmpty()) {
+                        error("token is empty")
+                    } else emit(token)
+                }.flatMapLatest { token -> getUserUseCase(token) }
+                .transformLatest { result ->
+                    when (result) {
+                        is Result.Success -> {
+                            user.postValue(result.data)
+                            emit(result.data.login)
+                        }
+
+                        is Result.Error -> error(result.message)
+                        else -> Unit
+                    }
+                }.flatMapLatest { userName -> getMyRepoUseCase(userName) }
+                .collectLatest { result ->
+                    when (result) {
+                        is Result.Success -> repoList.postValue(result.data)
+                        is Result.Error -> error(result.message)
+                        else -> Unit
+                    }
                 }
-                is Result.Error -> Unit
-                Result.Loading -> Unit
-            }
         }
     }
 }
