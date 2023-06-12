@@ -11,9 +11,9 @@ interface AuthService {
 
     @Headers("Accept: application/json")
     @POST("login/device/code")
-    suspend fun getDeviceCode(@Body body: HashMap<String, Any>): DeviceCode
+    suspend fun getDeviceCode(@Body body: HashMap<String, String>): DeviceCode
 
     @Headers("Accept: application/json")
     @POST("login/oauth/access_token")
-    suspend fun getAccessToken(@Body body: HashMap<String, Any>): AccessToken
+    suspend fun getAccessToken(@Body body: HashMap<String, String>): AccessToken
 }

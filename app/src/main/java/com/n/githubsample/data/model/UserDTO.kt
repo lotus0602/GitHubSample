@@ -1,7 +1,9 @@
 package com.n.githubsample.data.model
 
 import com.n.githubsample.domain.model.User
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class UserDTO(
     val avatar_url: String,
     val bio: String,

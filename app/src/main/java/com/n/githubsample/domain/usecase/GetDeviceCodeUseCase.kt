@@ -19,6 +19,7 @@ class GetDeviceCodeUseCase @Inject constructor(
             val result = authRepository.getDeviceCode(clientID, scope)
             emit(Result.Success(result))
         } catch (e: Exception) {
+            e.printStackTrace()
             emit(Result.Error(e.message ?: ""))
         }
     }

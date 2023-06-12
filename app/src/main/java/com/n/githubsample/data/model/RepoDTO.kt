@@ -2,7 +2,9 @@ package com.n.githubsample.data.model
 
 import com.n.githubsample.domain.model.MyPopularRepo
 import com.n.githubsample.domain.model.Repo
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class RepoDTO(
     val allow_forking: Boolean,
     val archive_url: String,
@@ -39,7 +41,7 @@ data class RepoDTO(
     val has_pages: Boolean,
     val has_projects: Boolean,
     val has_wiki: Boolean,
-    val homepage: Any,
+//    val homepage: Any,
     val hooks_url: String,
     val html_url: String,
     val id: Int,
@@ -51,10 +53,10 @@ data class RepoDTO(
     val labels_url: String,
     val language: String?,
     val languages_url: String,
-    val license: Any,
+//    val license: Any,
     val merges_url: String,
     val milestones_url: String,
-    val mirror_url: Any,
+//    val mirror_url: Any,
     val name: String,
     val node_id: String,
     val notifications_url: String,
@@ -75,7 +77,7 @@ data class RepoDTO(
     val svn_url: String,
     val tags_url: String,
     val teams_url: String,
-    val topics: List<Any>,
+//    val topics: List<Any>,
     val trees_url: String,
     val updated_at: String,
     val url: String,

@@ -1,15 +1,17 @@
 package com.n.githubsample.domain.model
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class DeviceCode(
-    @SerializedName("device_code")
+    @SerialName("device_code")
     val deviceCode: String,
-    @SerializedName("expires_in")
+    @SerialName("expires_in")
     val expiresIn: Int,
     val interval: Int,
-    @SerializedName("user_code")
+    @SerialName("user_code")
     val userCode: String,
-    @SerializedName("verification_uri")
+    @SerialName("verification_uri")
     val verificationUri: String
 )

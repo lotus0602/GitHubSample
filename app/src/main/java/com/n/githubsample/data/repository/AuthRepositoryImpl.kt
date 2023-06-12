@@ -11,7 +11,7 @@ class AuthRepositoryImpl @Inject constructor(
 ) : AuthRepository {
 
     override suspend fun getDeviceCode(clientID: String, scope: String): DeviceCode {
-        val body = HashMap<String, Any>()
+        val body = HashMap<String, String>()
             .apply {
                 put("client_id", clientID)
                 put("scope", scope)
@@ -24,7 +24,7 @@ class AuthRepositoryImpl @Inject constructor(
         deviceCode: String,
         grantType: String
     ): AccessToken {
-        val body = HashMap<String, Any>()
+        val body = HashMap<String, String>()
             .apply {
                 put("client_id", clientID)
                 put("device_code", deviceCode)

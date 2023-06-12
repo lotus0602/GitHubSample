@@ -1,5 +1,8 @@
 package com.n.githubsample.data.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class OwnerDTO(
     val avatar_url: String,
     val events_url: String,
