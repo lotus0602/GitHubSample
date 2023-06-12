@@ -3,18 +3,13 @@ package com.n.githubsample.auth
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.net.toUri
-import androidx.lifecycle.lifecycleScope
-import com.n.githubsample.Config
+import androidx.lifecycle.distinctUntilChanged
 import com.n.githubsample.R
 import com.n.githubsample.base.BaseActivity
 import com.n.githubsample.databinding.ActivityGithubAuthBinding
-import com.n.githubsample.domain.Result
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class GitHubAuthActivity : BaseActivity<ActivityGithubAuthBinding>() {
@@ -26,44 +21,42 @@ class GitHubAuthActivity : BaseActivity<ActivityGithubAuthBinding>() {
         binding.viewModel = gitHubAuthVM
 
         binding.btnInputCode.setOnClickListener {
-            gitHubAuthVM.verificationUri.value?.let { verifyUrl ->
-                Log.d(TAG, "onCreate, verifyUrl: $verifyUrl")
-                Intent(Intent.ACTION_VIEW, verifyUrl.toUri())
-                    .also { authGitHub.launch(it) }
+            val url = gitHubAuthVM.verificationUri.value
+                ?: return@setOnClickListener
+            Log.d(TAG, "onCreate, url: $url")
+            val browsIntent = Intent.makeMainSelectorActivity(
+                Intent.ACTION_MAIN,
+                Intent.CATEGORY_APP_BROWSER
+            ).apply {
+                data = url.toUri()
             }
-        }
+            try {
+                val resolve = browsIntent.resolveActivity(packageManager)
+                if (resolve != null) {
+                    Log.d(TAG, "onCreate: resolve: ${resolve.className}")
+                    startActivity(browsIntent)
+                } else {
 
-        lifecycleScope.launchWhenCreated {
-            gitHubAuthVM.getDeviceCode(Config.Key.GITHUB_CLIENT_ID, scopeList.joinToString(" "))
-        }
-    }
-
-    private val authGitHub =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { code ->
-            Log.d(TAG, "resultCode: $code")
-            lifecycleScope.launch {
-                gitHubAuthVM.deviceCode.value?.let { deviceCode ->
-                    gitHubAuthVM.getAccessToken(Config.Key.GITHUB_CLIENT_ID, deviceCode)
-                        .collect { result ->
-                            Log.d(TAG, "result: $result")
-                            when (result) {
-                                is Result.Success -> {
-                                    val intent = Intent().apply { putExtra("token", result.data) }
-                                    setResult(RESULT_OK, intent)
-                                    finish()
-                                }
-                                is Result.Error -> Log.d(TAG, "getAccessToken, ${result.message}")
-                                Result.Loading -> Unit
-                            }
-                        }
                 }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
+        binding.btnComplete.setOnClickListener {
+            gitHubAuthVM.getAccessToken()
+        }
+
+        gitHubAuthVM.accessToken.distinctUntilChanged()
+            .observe(this) { token ->
+                val intent = Intent().apply { putExtra("token", token) }
+                setResult(RESULT_OK, intent)
+                finish()
+            }
+
+        gitHubAuthVM.getDeviceCode()
+    }
 
     companion object {
         private val TAG = GitHubAuthActivity::class.java.simpleName
-
-        // @see: https://docs.github.com/en/developers/apps/building-oauth-apps/scopes-for-oauth-apps#available-scopes
-        val scopeList = arrayOf("repo", "user")
     }
 }

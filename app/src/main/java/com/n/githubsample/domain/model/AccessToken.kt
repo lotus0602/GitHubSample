@@ -7,5 +7,11 @@ data class AccessToken(
     val accessToken: String,
     val scope: String,
     @SerializedName("token_type")
-    val tokenType: String
+    val tokenType: String,
+
+    val error: String = "",
+    @SerializedName("error_description")
+    val errorDescription: String = "",
+    @SerializedName("error_uri")
+    val errorUri: String = ""
 )

@@ -20,7 +20,6 @@ class GetMyRepoUseCase @Inject constructor(
         page: Int = 1
     ): Flow<Result<List<MyPopularRepo>>> = flow {
         try {
-            emit(Result.Loading)
             val res = repoRepository.getMyRepo(userName, type, sort, direction, per_page, page)
             emit(Result.Success(res))
         } catch (e: Exception) {

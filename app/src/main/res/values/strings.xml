@@ -6,6 +6,7 @@
     <string name="your_device_code">Your Device Code</string>
     <string name="verification_url">Verification Url</string>
     <string name="go_to_verification">Go to Verification</string>
+    <string name="complete_verification">Complete verification</string>
 
     <string name="home">Home</string>
     <string name="my_work">My Work</string>

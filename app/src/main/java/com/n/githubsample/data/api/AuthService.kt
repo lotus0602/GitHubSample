@@ -5,6 +5,9 @@ import com.n.githubsample.domain.model.DeviceCode
 import retrofit2.http.*
 
 interface AuthService {
+    /**
+     * [API Doc](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps#device-flow)
+     */
 
     @Headers("Accept: application/json")
     @POST("login/device/code")

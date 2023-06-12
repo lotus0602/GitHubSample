@@ -52,5 +52,18 @@
             app:layout_constraintEnd_toEndOf="@+id/deviceCode"
             app:layout_constraintStart_toStartOf="@+id/deviceCode"
             app:layout_constraintTop_toBottomOf="@+id/deviceCode" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnComplete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/selector_btn_default"
+            android:paddingHorizontal="10dp"
+            android:text="@string/complete_verification"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@+id/btnInputCode"
+            app:layout_constraintStart_toStartOf="@+id/btnInputCode"
+            app:layout_constraintTop_toBottomOf="@+id/btnInputCode" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

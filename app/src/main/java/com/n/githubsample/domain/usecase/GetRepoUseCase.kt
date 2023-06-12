@@ -13,7 +13,6 @@ class GetRepoUseCase @Inject constructor(
 
     operator fun invoke(): Flow<Result<List<Repo>>> = flow {
         try {
-            emit(Result.Loading)
             val res = repoRepository.getPublicRepo()
             emit(Result.Success(res))
         } catch (e: Exception) {

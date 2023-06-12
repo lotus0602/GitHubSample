@@ -43,7 +43,6 @@ class MainVM @Inject constructor(
                         )
                     }
                     is Result.Error -> Unit
-                    Result.Loading -> Unit
                 }
             }
         }
@@ -55,7 +54,6 @@ class MainVM @Inject constructor(
                 when (res) {
                     is Result.Success -> repoList.value = res.data
                     is Result.Error -> Unit
-                    Result.Loading -> Unit
                 }
             }
         }

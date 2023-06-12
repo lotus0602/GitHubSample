@@ -17,7 +17,12 @@ class GetAccessTokenUseCase @Inject constructor(
     ): Flow<Result<String>> = flow {
         try {
             val result = authRepository.getAccessToken(clientID, deviceCode, grantType)
-            emit(Result.Success("${result.tokenType} ${result.accessToken}"))
+            if (result.error.isNullOrEmpty()) {
+                emit(Result.Success("${result.tokenType} ${result.accessToken}"))
+            } else {
+                emit(Result.Error(result.errorDescription))
+            }
+
         } catch (e: Exception) {
             emit(Result.Error(e.message ?: ""))
         }
