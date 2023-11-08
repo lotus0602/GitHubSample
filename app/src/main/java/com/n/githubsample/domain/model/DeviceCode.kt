@@ -1,5 +1,6 @@
 package com.n.githubsample.domain.model
 
+import com.n.githubsample.domain.FailResponse
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -14,4 +15,4 @@ data class DeviceCode(
     val userCode: String,
     @SerialName("verification_uri")
     val verificationUri: String
-)
+) : FailResponse()

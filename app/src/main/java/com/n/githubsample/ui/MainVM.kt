@@ -42,7 +42,7 @@ class MainVM @Inject constructor(
                             "getUser, ${result.data.id}, ${result.data.name}, ${result.data.email}"
                         )
                     }
-                    is Result.Error -> Unit
+                    is Result.Fail -> Unit
                 }
             }
         }
@@ -53,7 +53,7 @@ class MainVM @Inject constructor(
             getRepoUseCase().collect { res ->
                 when (res) {
                     is Result.Success -> repoList.value = res.data
-                    is Result.Error -> Unit
+                    is Result.Fail -> Unit
                 }
             }
         }

@@ -19,7 +19,7 @@ class GetUserUseCase @Inject constructor(
             emit(Result.Success(result))
         } catch (e: Exception) {
             e.printStackTrace()
-            emit(Result.Error(e.message ?: ""))
+            emit(Result.Fail.Error(e))
         }
     }
 }

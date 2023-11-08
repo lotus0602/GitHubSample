@@ -16,7 +16,7 @@ class GetRepoUseCase @Inject constructor(
             val res = repoRepository.getPublicRepo()
             emit(Result.Success(res))
         } catch (e: Exception) {
-            emit(Result.Error(e.message ?: ""))
+            emit(Result.Fail.Error(e))
         }
     }
 }

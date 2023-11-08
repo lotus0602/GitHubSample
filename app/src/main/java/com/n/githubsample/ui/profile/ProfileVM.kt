@@ -43,15 +43,13 @@ class ProfileVM @Inject constructor(
                             emit(result.data.login)
                         }
 
-                        is Result.Error -> error(result.message)
-                        else -> Unit
+                        is Result.Fail -> error(result.errorMessage())
                     }
                 }.flatMapLatest { userName -> getMyRepoUseCase(userName) }
                 .collectLatest { result ->
                     when (result) {
                         is Result.Success -> repoList.postValue(result.data)
-                        is Result.Error -> error(result.message)
-                        else -> Unit
+                        is Result.Fail -> error(result.errorMessage())
                     }
                 }
         }

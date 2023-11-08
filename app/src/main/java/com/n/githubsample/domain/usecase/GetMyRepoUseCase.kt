@@ -23,7 +23,7 @@ class GetMyRepoUseCase @Inject constructor(
             val res = repoRepository.getMyRepo(userName, type, sort, direction, per_page, page)
             emit(Result.Success(res))
         } catch (e: Exception) {
-            emit(Result.Error(e.message ?: ""))
+            emit(Result.Fail.Error(e))
         }
     }
 }
