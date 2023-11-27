@@ -92,7 +92,6 @@ class GitHubAuthVM @Inject constructor(
                                 _accessTokenState.update { AccessTokenState.Success(result.data) }
                             }
 
-
                             is Result.Fail.ResponseError -> {
                                 _accessTokenState.update { AccessTokenState.Error }
                                 _event.emit(result.errorMessage())
