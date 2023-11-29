@@ -2,6 +2,7 @@ package com.n.githubsample.ui
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavController
@@ -12,6 +13,10 @@ import com.n.githubsample.R
 import com.n.githubsample.base.BaseActivity
 import com.n.githubsample.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
@@ -34,6 +39,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         val navHost = supportFragmentManager.findFragmentById(R.id.navHost) as NavHostFragment
         navController = navHost.navController
+        val navGraph = navController.navInflater.inflate(R.navigation.nav_main)
         binding.navBottom.setupWithNavController(navController)
+
+        CoroutineScope(Dispatchers.Main).launch {
+            if (mainVM.hasAccessToken.first()) {
+                binding.navBottom.visibility = View.VISIBLE
+                navGraph.setStartDestination(R.id.homeFragment)
+            } else {
+                binding.navBottom.visibility = View.GONE
+                navGraph.setStartDestination(R.id.loginFragment)
+            }
+            navController.graph = navGraph
+        }
     }
 }
