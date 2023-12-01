@@ -36,3 +36,8 @@
     * Dialog, BottomSheet, Toast, SnackBar 등
     * 권한, 위치, 미디어, 카메라 등의 안드로이드 기능들
     * String, Spannable 같은 일반적인 것들
+
+* 버전 관리
+   * 버전 업데이트
+   * Version Catalog 적용
+   * gradle 언어 kotlin으로 전환
