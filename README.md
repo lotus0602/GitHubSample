@@ -41,5 +41,6 @@
    * 버전 업데이트
    * Version Catalog 적용
    * gradle 언어 kotlin으로 전환
+
  
 [이슈로그](https://github.com/lotus0602/GitHubSample/blob/doc/doc/issue_log.md)
