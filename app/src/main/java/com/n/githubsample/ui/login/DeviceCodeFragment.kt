@@ -1,7 +1,6 @@
 package com.n.githubsample.ui.login
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,7 +29,6 @@ class DeviceCodeFragment : Fragment() {
             DeviceCodeScreen(
                 uiState = uiState.value,
                 onClickVerification = { uri ->
-                    Log.d("TAG", "onCreateView: uri=>$uri")
                     IntentKit.browseIntent(context, uri)
                     findNavController().navigate(R.id.action_deviceCodeFragment_to_authenticateFragment)
                 }
