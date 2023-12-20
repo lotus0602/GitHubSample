@@ -35,8 +35,4 @@ class DeviceCodeFragment : Fragment() {
             )
         }
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        signInVM.getDeviceCode()
-    }
 }
