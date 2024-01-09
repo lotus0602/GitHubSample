@@ -25,9 +25,11 @@ class DeviceCodeFragment : Fragment() {
         setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
         setContent {
             val uiState = signInVM.deviceCodeUiState.collectAsStateWithLifecycle()
+            val expireState = signInVM.expireState.collectAsStateWithLifecycle()
 
             DeviceCodeScreen(
                 uiState = uiState.value,
+                expireState = expireState.value,
                 onClickVerification = { uri ->
                     IntentKit.browseIntent(context, uri)
                     findNavController().navigate(R.id.action_deviceCodeFragment_to_authenticateFragment)

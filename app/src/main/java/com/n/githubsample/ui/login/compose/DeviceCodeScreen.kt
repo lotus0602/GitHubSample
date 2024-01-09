@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -20,16 +21,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.n.githubsample.R
 import com.n.githubsample.ui.login.DeviceCodeUiState
+import com.n.githubsample.ui.login.ExpireState
 
 @Composable
 fun DeviceCodeScreen(
     modifier: Modifier = Modifier,
     uiState: DeviceCodeUiState,
+    expireState: ExpireState,
     onClickVerification: (uri: String) -> Unit
 ) {
     DeviceCodeScreenContent(
         modifier = modifier,
         uiState = uiState,
+        expireState = expireState,
         onClickVerification = onClickVerification
     )
 }
@@ -38,6 +42,7 @@ fun DeviceCodeScreen(
 internal fun DeviceCodeScreenContent(
     modifier: Modifier = Modifier,
     uiState: DeviceCodeUiState,
+    expireState: ExpireState,
     onClickVerification: (uri: String) -> Unit
 ) {
     Column(
@@ -57,6 +62,7 @@ internal fun DeviceCodeScreenContent(
                 DeviceCodeContent(
                     modifier = modifier,
                     uiState = uiState,
+                    expireState= expireState,
                     onClickVerification = onClickVerification
                 )
         }
@@ -67,6 +73,7 @@ internal fun DeviceCodeScreenContent(
 internal fun DeviceCodeContent(
     modifier: Modifier = Modifier,
     uiState: DeviceCodeUiState.Success,
+    expireState: ExpireState,
     onClickVerification: (uri: String) -> Unit
 ) {
     Column(
@@ -90,6 +97,13 @@ internal fun DeviceCodeContent(
                 color = colorResource(id = R.color.white),
                 fontSize = 16.sp
             )
+            if (expireState is ExpireState.UnExpired) {
+                Text(
+                    text = expireState.toTime(),
+                    color = Color.Red,
+                    fontSize = 16.sp
+                )
+            }
         }
 
         Button(
@@ -139,6 +153,7 @@ internal fun LoadingView(
 fun DeviceCodeContentPreview() {
     DeviceCodeContent(
         uiState = DeviceCodeUiState.Success("userCode", "deviceCode", "uri"),
+        expireState = ExpireState.UnExpired(900, 10),
         onClickVerification = {}
     )
 }

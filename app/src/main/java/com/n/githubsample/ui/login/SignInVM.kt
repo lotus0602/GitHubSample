@@ -8,6 +8,7 @@ import com.n.githubsample.domain.model.DeviceCode
 import com.n.githubsample.domain.usecase.GetAccessTokenUseCase
 import com.n.githubsample.domain.usecase.GetDeviceCodeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -31,16 +32,42 @@ class SignInVM @Inject constructor(
     private val _accessTokenUiState = MutableStateFlow<AccessTokenUiState>(AccessTokenUiState.None)
     val accessTokenUiState = _accessTokenUiState.asStateFlow()
 
+    private val _expireState = MutableStateFlow<ExpireState>(ExpireState.Idle)
+    val expireState = _expireState.asStateFlow()
+
+    private fun startExpiresTimer(time: Int) {
+        viewModelScope.launch {
+            _expireState.update { ExpireState.UnExpired(time, 0) }
+            while (_expireState.value is ExpireState.UnExpired) {
+                delay(1_000)
+
+                val oldState = (_expireState.value as ExpireState.UnExpired)
+                val newState = oldState.copy(passedTime = oldState.passedTime + 1)
+
+                _expireState.update { newState }
+
+                if (newState.isExceed()) {
+                    break
+                }
+            }
+            _expireState.update { ExpireState.Expired }
+        }
+    }
+
     fun getDeviceCode(
         clientID: String = Config.Key.GITHUB_CLIENT_ID,
         scope: String = SCOPE_LIST.joinToString(" ")
     ) {
         viewModelScope.launch {
+            if (_expireState.value.isUnExpired()) {
+                return@launch
+            }
             getDeviceCodeUseCase(clientID, scope)
                 .onStart { _deviceCodeUiState.update { DeviceCodeUiState.Loading } }
                 .collectLatest { result ->
                     when (result) {
                         is Result.Success -> {
+                            startExpiresTimer(result.data.expiresIn)
                             _deviceCodeUiState.update { DeviceCodeUiState.toSuccess(result.data) }
                         }
 
@@ -131,4 +158,16 @@ sealed interface AccessTokenUiState {
         val errorType: String,
         val errorMessage: String
     ) : AccessTokenUiState
+}
+
+sealed interface ExpireState {
+    object Idle : ExpireState
+    object Expired : ExpireState
+    data class UnExpired(val expiredTime: Int, val passedTime: Int) : ExpireState {
+        fun isExceed(): Boolean = expiredTime <= passedTime
+        fun toTime(): String =
+            "${(expiredTime - passedTime) / 60}:${(expiredTime - passedTime) % 60}"
+    }
+
+    fun isUnExpired(): Boolean = this is UnExpired
 }
