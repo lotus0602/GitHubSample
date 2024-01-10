@@ -50,7 +50,10 @@ internal fun AuthenticationScreenContent(
         ) {
             when (uiState) {
                 AccessTokenUiState.None -> {
-                    Text(text = "Click Complete", color = colorResource(id = R.color.white))
+                    Text(
+                        text = stringResource(id = R.string.click_complete),
+                        color = colorResource(id = R.color.white)
+                    )
                 }
 
                 AccessTokenUiState.Loading -> {
@@ -72,7 +75,10 @@ internal fun AuthenticationScreenContent(
                 }
 
                 is AccessTokenUiState.Success -> {
-                    Text(text = "Success", color = colorResource(id = R.color.white))
+                    Text(
+                        text = stringResource(id = R.string.success),
+                        color = colorResource(id = R.color.white)
+                    )
                 }
             }
         }
