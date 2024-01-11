@@ -59,9 +59,12 @@ class SignInVM @Inject constructor(
         scope: String = SCOPE_LIST.joinToString(" ")
     ) {
         viewModelScope.launch {
+            _accessTokenUiState.update { AccessTokenUiState.None }
+
             if (_expireState.value.isUnExpired()) {
                 return@launch
             }
+
             getDeviceCodeUseCase(clientID, scope)
                 .onStart { _deviceCodeUiState.update { DeviceCodeUiState.Loading } }
                 .collectLatest { result ->
