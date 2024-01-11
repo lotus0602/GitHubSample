@@ -3,6 +3,7 @@ package com.n.githubsample.ui.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.n.githubsample.Config
+import com.n.githubsample.core.DataStoreManager
 import com.n.githubsample.domain.Result
 import com.n.githubsample.domain.model.DeviceCode
 import com.n.githubsample.domain.usecase.GetAccessTokenUseCase
@@ -19,6 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignInVM @Inject constructor(
+    private val dataStore: DataStoreManager,
     private val getDeviceCodeUseCase: GetDeviceCodeUseCase,
     private val getAccessTokenUseCase: GetAccessTokenUseCase
 ) : ViewModel() {
@@ -85,6 +87,10 @@ class SignInVM @Inject constructor(
                     }
                 }
         }
+    }
+
+    suspend fun saveAccessToken(token: String) {
+        dataStore.setAccessToken(token)
     }
 
     fun getAccessToken(
