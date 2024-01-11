@@ -2,6 +2,9 @@
     <string name="app_name">GitHubSample</string>
 
     <string name="login">login</string>
+    <string name="sign_in">Sign in</string>
+    <string name="click_complete">Click Complete</string>
+    <string name="success">Success</string>
 
     <string name="your_device_code">Your Device Code</string>
     <string name="verification_url">Verification Url</string>
