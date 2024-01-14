@@ -10,6 +10,7 @@ import com.n.githubsample.base.BaseFragment
 import com.n.githubsample.databinding.FragmentProfileBinding
 import com.n.githubsample.ui.MainVM
 import com.n.githubsample.ui.MyPopularRepoAdapter
+import com.n.githubsample.utils.addMenu
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,6 +25,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         binding.viewModel = profileVM
 
         init()
+        addMenu(R.menu.nav_menu_profile)
     }
 
     private fun init() {

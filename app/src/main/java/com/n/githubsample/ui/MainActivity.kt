@@ -10,7 +10,9 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.onNavDestinationSelected
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.n.githubsample.R
 import com.n.githubsample.base.BaseActivity
@@ -53,6 +55,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         }
         binding.navBottom.setupWithNavController(navController)
+        setupActionBarWithNavController(
+            navController,
+            AppBarConfiguration(setOf(R.id.homeFragment, R.id.profileFragment))
+        )
     }
 
     private fun observeData() {

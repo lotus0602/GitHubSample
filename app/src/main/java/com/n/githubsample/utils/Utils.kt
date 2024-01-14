@@ -3,9 +3,16 @@ package com.n.githubsample.utils
 import android.content.Context
 import android.content.Intent
 import android.util.TypedValue
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.Toast
+import androidx.annotation.MenuRes
 import androidx.annotation.StringRes
 import androidx.core.net.toUri
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
+import androidx.fragment.app.Fragment
 import com.n.githubsample.R
 
 fun Context.dp2Px(dp: Float): Float =
@@ -48,4 +55,18 @@ object IntentKit {
             e.printStackTrace()
         }
     }
+}
+
+fun Fragment.addMenu(@MenuRes resourceID: Int) {
+    val menuHost: MenuHost = requireActivity()
+    menuHost.addMenuProvider(object : MenuProvider {
+        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+            menu.clear()
+            menuInflater.inflate(resourceID, menu)
+        }
+
+        override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+            return true
+        }
+    }, viewLifecycleOwner)
 }
