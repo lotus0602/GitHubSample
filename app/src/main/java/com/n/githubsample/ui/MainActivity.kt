@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
@@ -25,6 +26,7 @@ import kotlinx.coroutines.flow.onEach
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     private val mainVM: MainVM by viewModels()
     private lateinit var navController: NavController
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     override val layoutResID = R.layout.activity_main
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +44,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
 
+    override fun onSupportNavigateUp(): Boolean =
+        navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+
     private fun initView() {
         val navHost = supportFragmentManager.findFragmentById(R.id.navHost) as NavHostFragment
         navController = navHost.navController
@@ -54,11 +59,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 else -> binding.navBottom.visibility = View.VISIBLE
             }
         }
+        appBarConfiguration = AppBarConfiguration(setOf(R.id.homeFragment, R.id.profileFragment))
+        setupActionBarWithNavController(navController, appBarConfiguration)
+
         binding.navBottom.setupWithNavController(navController)
-        setupActionBarWithNavController(
-            navController,
-            AppBarConfiguration(setOf(R.id.homeFragment, R.id.profileFragment))
-        )
     }
 
     private fun observeData() {
