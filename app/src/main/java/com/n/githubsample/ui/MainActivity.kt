@@ -52,11 +52,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         navController = navHost.navController
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.startSignInFragment,
-                R.id.deviceCodeFragment,
-                R.id.authenticateFragment -> binding.navBottom.visibility = View.GONE
+                R.id.homeFragment,
+                R.id.profileFragment -> binding.navBottom.visibility = View.VISIBLE
 
-                else -> binding.navBottom.visibility = View.VISIBLE
+                else -> binding.navBottom.visibility = View.GONE
             }
         }
         appBarConfiguration = AppBarConfiguration(setOf(R.id.homeFragment, R.id.profileFragment))
