@@ -7,5 +7,5 @@
     <fragment
         android:id="@+id/settingFragment"
         android:name="com.n.githubsample.ui.setting.SettingFragment"
-        android:label="SettingFragment" />
+        android:label="@string/settings" />
 </navigation>
