@@ -6,14 +6,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun SettingScreen(
+fun SettingsScreen(
     modifier: Modifier = Modifier
 ) {
-   Text(text = "SettingScreen")
+   Text(text = "SettingsScreen")
 }
 
 @Preview
 @Composable
-fun SettingScreenPreview() {
+fun SettingsScreenPreview() {
 
 }
