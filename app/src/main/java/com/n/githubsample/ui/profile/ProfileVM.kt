@@ -12,6 +12,7 @@ import com.n.githubsample.domain.usecase.GetUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.transformLatest
 import kotlinx.coroutines.launch
@@ -28,14 +29,12 @@ class ProfileVM @Inject constructor(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     fun fetchData() {
-
         viewModelScope.launch {
-            dataStoreManager.getAccessToken()
-                .transformLatest { token ->
-                    if (token.isEmpty()) {
-                        error("token is empty")
-                    } else emit(token)
-                }.flatMapLatest { token -> getUserUseCase(token) }
+            val token = dataStoreManager.getAccessToken().first()
+            if (token.isEmpty()) {
+                return@launch
+            }
+            getUserUseCase(token)
                 .transformLatest { result ->
                     when (result) {
                         is Result.Success -> {
