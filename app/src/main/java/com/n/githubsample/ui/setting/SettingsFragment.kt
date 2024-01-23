@@ -9,6 +9,7 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.navOptions
 import com.n.githubsample.R
 import com.n.githubsample.core.DataStoreManager
 import com.n.githubsample.ui.setting.compose.SettingsScreen
@@ -32,7 +33,11 @@ class SettingsFragment : Fragment() {
                 onClickSignOut = {
                     lifecycleScope.launch {
                         dataStore.setAccessToken("")
-                        findNavController().navigate(R.id.nav_auth)
+                        findNavController().navigate(
+                            resId = R.id.nav_auth,
+                            args = null,
+                            navOptions = navOptions { popUpTo(R.id.nav_main) }
+                        )
                     }
                 })
         }
