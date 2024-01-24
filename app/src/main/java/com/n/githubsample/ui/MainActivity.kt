@@ -9,6 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -51,12 +52,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         val navHost = supportFragmentManager.findFragmentById(R.id.navHost) as NavHostFragment
         navController = navHost.navController
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.homeFragment,
-                R.id.profileFragment -> binding.navBottom.visibility = View.VISIBLE
-
-                else -> binding.navBottom.visibility = View.GONE
-            }
+            handleNavigationUI(destination)
         }
         appBarConfiguration = AppBarConfiguration(setOf(R.id.homeFragment, R.id.profileFragment))
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -78,6 +74,27 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         } else {
             navGraph.setStartDestination(R.id.nav_auth)
             navController.graph = navGraph
+        }
+    }
+
+    private fun handleNavigationUI(destination: NavDestination) {
+        when (destination.id) {
+            R.id.startSignInFragment,
+            R.id.deviceCodeFragment,
+            R.id.authenticateFragment -> supportActionBar?.hide()
+
+            else -> supportActionBar?.show()
+        }
+
+        when (destination.id) {
+            R.id.homeFragment,
+            R.id.profileFragment -> {
+                binding.navBottom.visibility = View.VISIBLE
+            }
+
+            else -> {
+                binding.navBottom.visibility = View.GONE
+            }
         }
     }
 }
