@@ -2,9 +2,9 @@ package com.n.githubsample.ui
 
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -54,7 +54,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             handleNavigationUI(destination)
         }
-        appBarConfiguration = AppBarConfiguration(setOf(R.id.homeFragment, R.id.profileFragment))
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.homeFragment,
+                R.id.notificationsFragment,
+                R.id.exploreFragment,
+                R.id.profileFragment
+            )
+        )
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.navBottom.setupWithNavController(navController)
@@ -86,15 +93,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             else -> supportActionBar?.show()
         }
 
-        when (destination.id) {
-            R.id.homeFragment,
-            R.id.profileFragment -> {
-                binding.navBottom.visibility = View.VISIBLE
-            }
-
-            else -> {
-                binding.navBottom.visibility = View.GONE
-            }
-        }
+        binding.navBottom.isVisible = appBarConfiguration.isTopLevelDestination(destination)
     }
 }
