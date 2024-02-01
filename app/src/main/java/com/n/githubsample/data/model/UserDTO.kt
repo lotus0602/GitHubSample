@@ -44,7 +44,7 @@ data class UserDTO(
 ) {
     fun toUser(): User =
         User(
-            id = id,
+//            id = id,
             login = login,
             name = name,
             email = email ?: "",
