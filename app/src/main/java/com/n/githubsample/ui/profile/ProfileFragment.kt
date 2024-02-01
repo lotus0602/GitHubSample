@@ -1,47 +1,42 @@
 package com.n.githubsample.ui.profile
 
 import android.os.Bundle
-import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
-import androidx.fragment.app.activityViewModels
+import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.n.githubsample.R
-import com.n.githubsample.base.BaseFragment
-import com.n.githubsample.databinding.FragmentProfileBinding
-import com.n.githubsample.ui.MainVM
-import com.n.githubsample.ui.MyPopularRepoAdapter
+import com.n.githubsample.ui.profile.compose.ProfileScreen
 import com.n.githubsample.utils.addMenu
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
-    private val activityVM: MainVM by activityViewModels()
+class ProfileFragment : Fragment() {
     private val profileVM: ProfileVM by viewModels()
 
-    private lateinit var myPopularRepoAdapter: MyPopularRepoAdapter
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View = ComposeView(requireContext()).apply {
+        setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+        setContent {
+            val user = profileVM.user.collectAsStateWithLifecycle()
+            val repositories = profileVM.repoList.collectAsStateWithLifecycle()
 
-    override val layoutResID: Int = R.layout.fragment_profile
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.viewModel = profileVM
-
-        init()
-        addMenu(R.menu.nav_menu_profile)
+            ProfileScreen(
+                user = user.value,
+                list = repositories.value
+            )
+        }
     }
 
-    private fun init() {
-        myPopularRepoAdapter = MyPopularRepoAdapter()
-        binding.popularList.apply {
-            adapter = myPopularRepoAdapter
-        }
-
-        profileVM.user.observe(viewLifecycleOwner) {
-            Log.d("TAG", "init, $it")
-        }
-
-        profileVM.repoList.observe(viewLifecycleOwner) { list ->
-            myPopularRepoAdapter.submitList(list)
-            Log.d("TAG", "init: ${list.size}")
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        addMenu(R.menu.nav_menu_profile)
 
         profileVM.fetchData()
     }
