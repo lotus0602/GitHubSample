@@ -4,6 +4,8 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,13 +16,17 @@ import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.ShoppingCart
+import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.n.githubsample.R
+import com.n.githubsample.domain.model.MyPopularRepo
 import com.n.githubsample.domain.model.User
 
 @Composable
@@ -137,6 +144,133 @@ fun UserProfilePreview() {
             login = "login",
             followers = 1,
             following = 1
+        )
+    )
+}
+
+@Composable
+fun RepositoryItem(
+    modifier: Modifier = Modifier,
+    repo: MyPopularRepo
+) {
+    Column(
+        modifier = modifier
+            .widthIn(min = 400.dp)
+            .background(
+                color = colorResource(id = R.color.arsenic),
+                shape = RoundedCornerShape(4.dp)
+            )
+            .border(
+                width = 1.dp,
+                color = colorResource(id = R.color.grey),
+                shape = RoundedCornerShape(4.dp)
+            )
+            .padding(16.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            AsyncImage(
+                modifier = modifier
+                    .size(16.dp)
+                    .clip(CircleShape)
+                    .background(colorResource(id = R.color.white)),
+                model = repo.ownerProfileImage,
+                placeholder = rememberVectorPainter(image = Icons.Default.Person),
+                contentDescription = null
+            )
+            Spacer(modifier = modifier.width(8.dp))
+
+            Text(text = repo.ownerName, fontSize = 14.sp, color = colorResource(id = R.color.grey))
+        }
+        Spacer(modifier = modifier.height(4.dp))
+
+        Text(
+            text = repo.repoName,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
+            color = colorResource(id = R.color.white)
+        )
+        Spacer(modifier = modifier.height(30.dp))
+
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                imageVector = Icons.Default.Star,
+                contentDescription = null,
+                tint = colorResource(id = R.color.tangerine)
+            )
+            Spacer(modifier = modifier.width(8.dp))
+
+            Text(
+                text = repo.starCount.toString(),
+                fontSize = 14.sp,
+                color = colorResource(id = R.color.grey)
+            )
+            Spacer(modifier = modifier.width(12.dp))
+
+            Box(
+                modifier = modifier
+                    .size(12.dp)
+                    .clip(CircleShape)
+                    .background(color = colorResource(id = R.color.amethyst))
+            )
+            Spacer(modifier = modifier.width(8.dp))
+
+            Text(
+                text = repo.repoLanguage,
+                fontSize = 14.sp,
+                color = colorResource(id = R.color.grey)
+            )
+            Spacer(modifier = modifier.width(8.dp))
+        }
+    }
+}
+
+@Preview
+@Composable
+fun RepositoryItemPreview() {
+    RepositoryItem(repo = MyPopularRepo("name", "", "title", "", 1, "kotlin"))
+}
+
+@Composable
+fun UserRepositories(
+    modifier: Modifier = Modifier,
+    list: List<MyPopularRepo>
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(20.dp)
+    ) {
+        Row {
+            Icon(
+                imageVector = Icons.Outlined.Star,
+                contentDescription = null,
+                tint = colorResource(id = R.color.grey)
+            )
+            Spacer(modifier = modifier.width(10.dp))
+
+            Text(
+                text = stringResource(id = R.string.popular),
+                color = colorResource(id = R.color.white),
+                fontSize = 18.sp
+            )
+        }
+        Spacer(modifier = modifier.height(10.dp))
+
+        LazyRow(modifier = modifier) {
+            items(items = list) { repo ->
+                RepositoryItem(repo = repo)
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun UserRepositoriesPreview() {
+    UserRepositories(
+        list = listOf(
+            MyPopularRepo("name", "", "title1", "", 1, "kotlin"),
+            MyPopularRepo("name", "", "title2", "", 3, "kotlin")
         )
     )
 }
