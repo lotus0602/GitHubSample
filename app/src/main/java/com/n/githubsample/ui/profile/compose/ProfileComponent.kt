@@ -5,6 +5,7 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,7 +15,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyRow
@@ -62,7 +62,7 @@ fun UserProfile(
         Row(modifier = modifier.fillMaxWidth()) {
             AsyncImage(
                 modifier = modifier
-                    .sizeIn(minWidth = 60.dp, minHeight = 60.dp)
+                    .size(48.dp)
                     .clip(CircleShape)
                     .background(colorResource(id = R.color.white)),
                 model = user.avatar_url,
@@ -155,7 +155,7 @@ fun RepositoryItem(
 ) {
     Column(
         modifier = modifier
-            .widthIn(min = 400.dp)
+            .widthIn(min = 300.dp)
             .background(
                 color = colorResource(id = R.color.arsenic),
                 shape = RoundedCornerShape(4.dp)
@@ -256,7 +256,7 @@ fun UserRepositories(
         }
         Spacer(modifier = modifier.height(10.dp))
 
-        LazyRow(modifier = modifier) {
+        LazyRow(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
             items(items = list) { repo ->
                 RepositoryItem(repo = repo)
             }
@@ -289,7 +289,7 @@ fun MenuRowItem(
         modifier = modifier
             .requiredHeightIn(min = 50.dp)
             .fillMaxWidth()
-            .padding(20.dp),
+            .padding(horizontal = 20.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
@@ -297,7 +297,7 @@ fun MenuRowItem(
                 .size(36.dp)
                 .clip(RoundedCornerShape(8.dp))
                 .background(colorResource(id = colorRes))
-                .padding(4.dp),
+                .padding(6.dp),
             painter = painterResource(id = iconRes),
             contentDescription = null
         )
