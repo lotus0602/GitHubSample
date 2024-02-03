@@ -25,13 +25,8 @@ class ProfileFragment : Fragment() {
     ): View = ComposeView(requireContext()).apply {
         setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
         setContent {
-            val user = profileVM.user.collectAsStateWithLifecycle()
-            val repositories = profileVM.repoList.collectAsStateWithLifecycle()
-
-            ProfileScreen(
-                user = user.value,
-                list = repositories.value
-            )
+            val uiState = profileVM.profileUiState.collectAsStateWithLifecycle()
+            ProfileScreen(uiState = uiState.value)
         }
     }
 
