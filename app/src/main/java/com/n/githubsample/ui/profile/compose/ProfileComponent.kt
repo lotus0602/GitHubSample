@@ -1,8 +1,5 @@
 package com.n.githubsample.ui.profile.compose
 
-import androidx.annotation.ColorRes
-import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -33,6 +30,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -278,12 +277,10 @@ fun UserRepositoriesPreview() {
 @Composable
 fun MenuRowItem(
     modifier: Modifier = Modifier,
-    @ColorRes
-    colorRes: Int,
-    @DrawableRes
-    iconRes: Int,
+    icon: Painter,
+    iconColor: Color,
     title: String,
-    count: Int?
+    count: Int? = null
 ) {
     Row(
         modifier = modifier
@@ -292,14 +289,15 @@ fun MenuRowItem(
             .padding(horizontal = 20.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Image(
+        Icon(
             modifier = modifier
                 .size(36.dp)
                 .clip(RoundedCornerShape(8.dp))
-                .background(colorResource(id = colorRes))
+                .background(iconColor)
                 .padding(6.dp),
-            painter = painterResource(id = iconRes),
-            contentDescription = null
+            painter = icon,
+            contentDescription = null,
+            tint = colorResource(id = R.color.white)
         )
         Text(
             modifier = modifier
@@ -319,8 +317,8 @@ fun MenuRowItem(
 @Composable
 fun MenuRowItemPreview() {
     MenuRowItem(
-        colorRes = R.color.sana,
-        iconRes = R.drawable.ic_organization_50,
+        icon = painterResource(id = R.drawable.ic_organization_50),
+        iconColor = colorResource(id = R.color.sana),
         title = stringResource(id = R.string.organizations),
         count = 0
     )

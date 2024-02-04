@@ -5,11 +5,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.twotone.Star
 import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -56,16 +60,20 @@ fun ProfileScreenContent(
                 Divider(color = colorResource(id = R.color.grey))
 
                 MenuRowItem(
-                    colorRes = R.color.arsenic,
-                    iconRes = R.drawable.ic_repository_50,
+                    icon = painterResource(id = R.drawable.ic_repository_50),
+                    iconColor = colorResource(id = R.color.arsenic),
                     title = stringResource(id = R.string.repositories),
-                    count = 0
+                    count = uiState.user.repositoryCount
                 )
                 MenuRowItem(
-                    colorRes = R.color.sana,
-                    iconRes = R.drawable.ic_organization_50,
-                    title = stringResource(id = R.string.organizations),
-                    count = 0
+                    icon = painterResource(id = R.drawable.ic_organization_50),
+                    iconColor = colorResource(id = R.color.sana),
+                    title = stringResource(id = R.string.organizations)
+                )
+                MenuRowItem(
+                    icon = rememberVectorPainter(image = Icons.TwoTone.Star),
+                    iconColor = colorResource(id = R.color.tangerine),
+                    title = stringResource(id = R.string.starred)
                 )
             }
         }
