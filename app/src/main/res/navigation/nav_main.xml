@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_main"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/nav_home">
 
-    <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.n.githubsample.ui.home.HomeFragment"
-        android:label="HomeFragment"
-        tools:layout="@layout/fragment_home" />
-    <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.n.githubsample.ui.profile.ProfileFragment"
-        android:label="ProfileFragment"
-        tools:layout="@layout/fragment_profile" />
+    <!--    <fragment-->
+    <!--        android:id="@+id/homeFragment"-->
+    <!--        android:name="com.n.githubsample.ui.home.HomeFragment"-->
+    <!--        android:label="@string/home"-->
+    <!--        tools:layout="@layout/fragment_home" />-->
+    <!--    <fragment-->
+    <!--        android:id="@+id/profileFragment"-->
+    <!--        android:name="com.n.githubsample.ui.profile.ProfileFragment"-->
+    <!--        android:label="@string/profile"-->
+    <!--        tools:layout="@layout/fragment_profile" />-->
+
+    <include app:graph="@navigation/nav_home" />
+    <include app:graph="@navigation/nav_explore" />
+    <include app:graph="@navigation/nav_notifications" />
+    <include app:graph="@navigation/nav_profile" />
 
     <include app:graph="@navigation/nav_auth" />
+    <include app:graph="@navigation/nav_settings" />
 </navigation>

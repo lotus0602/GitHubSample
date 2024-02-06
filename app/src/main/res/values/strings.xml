@@ -3,6 +3,7 @@
 
     <string name="login">login</string>
     <string name="sign_in">Sign in</string>
+    <string name="sign_out">Sign Out</string>
     <string name="click_complete">Click Complete</string>
     <string name="success">Success</string>
 
@@ -33,6 +34,10 @@
     <string name="following">following</string>
     <string name="popular">Popular</string>
     <string name="starred">Starred</string>
+
+    <string name="search">Search</string>
+    <string name="settings">Settings</string>
+    <string name="more_options">More Options</string>
 
     <string name="error_no_activity_to_handle_intent">No Activity to handle intent</string>
     <string name="error_auth_invalid_verification_url">invalid url</string>

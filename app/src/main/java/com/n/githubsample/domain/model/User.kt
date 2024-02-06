@@ -16,7 +16,7 @@ data class User(
 //    val gravatar_id: String,
 //    val hireable: Boolean,
 //    val html_url: String,
-    val id: Long,
+//    val id: Long,
 //    val location: String,
     val login: String = "",
     val name: String = "",
